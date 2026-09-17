@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculateur Rentabilité iPhone</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-orange: #f97316;
+      --accent-red: #ef4444;
+      
+      --success-bg: #dcfce7;
+      --success-text: #15803d;
+      --danger-bg: #fee2e2;
+      --danger-text: #b91c1c;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .layout-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .full-width {
+        grid-column: span 2;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--card-accent, var(--primary));
+    }
+
+    .card-main { --card-accent: var(--accent-blue); }
+    .card-rates { --card-accent: var(--accent-purple); }
+    .card-travel { --card-accent: var(--accent-orange); }
+    .card-results { --card-accent: #10b981; }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .card-main .icon { color: var(--accent-blue); }
+    .card-rates .icon { color: var(--accent-purple); }
+    .card-travel .icon { color: var(--accent-orange); }
+    .card-results .icon { color: #10b981; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    @media (min-width: 480px) {
+      .form-grid-2 { grid-template-columns: 1fr 1fr; }
+      .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .source-link {
+      font-weight: normal;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.75rem;
+    }
+
+    .source-link:hover {
+      text-decoration: underline;
+    }
+
+    input, select {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      outline: none;
+      background-color: white;
+      transition: all 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn-calc {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-calc:hover {
+      background: var(--primary-hover);
+    }
+
+    .results-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: #f8fafc;
+      font-size: 0.9rem;
+    }
+
+    .result-item.expense {
+      background: #fef2f2;
+      border-left: 3px solid var(--accent-red);
+    }
+
+    .result-item.expense .val {
+      color: var(--danger-text);
+      font-weight: 600;
+    }
+
+    .result-item.kpi {
+      padding: 14px 12px;
+      border-radius: 8px;
+      margin-top: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .result-item.kpi .lbl {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .result-item.kpi .val {
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .status-profit {
+      background: var(--success-bg) !important;
+      color: var(--success-text) !important;
+    }
+
+    .status-loss {
+      background: var(--danger-bg) !important;
+      color: var(--danger-text) !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>
+      <svg class="icon" style="width: 32px; height: 32px; color: var(--primary);" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+      Calculateur de Rentabilité iPhone
+    </h1>
+    <p>Estimation Achat & Revente Internationales</p>
+  </header>
+
+  <div class="layout-grid">
+    
+    <!-- DONNÉES PRINCIPALES -->
+    <div class="card card-main">
+      <h2 class="card-title">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+        Données Principales
+      </h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="nbIphone">Nombre d'iPhone</label>
+          <select id="nbIphone">
+            <!-- Rempli dynamiquement en JS (1 à 100) -->
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="modeleIphone">Modèle d'iPhone</label>
+          <select id="modeleIphone" onchange="updatePrixIphone()">
+            <optgroup label="iPhone 18 Series">
+              <option value="1560">iPhone 18 Pro Max</option>
+              <option value="1320">iPhone 18 Pro</option>
+              <option value="1080">iPhone 18 Plus</option>
+              <option value="960">iPhone 18</option>
+            </optgroup>
+            <optgroup label="iPhone 17 Series">
+              <option value="1479">iPhone 17 Pro Max</option>
+              <option value="1229">iPhone 17 Pro</option>
+              <option value="1119">iPhone 17 Air / Slim</option>
+              <option value="969">iPhone 17</option>
+            </optgroup>
+            <optgroup label="iPhone 16 Series">
+              <option value="1479">iPhone 16 Pro Max</option>
+              <option value="1229">iPhone 16 Pro</option>
+              <option value="1119">iPhone 16 Plus</option>
+              <option value="969" selected>iPhone 16</option>
+              <option value="659">iPhone SE 4</option>
+            </optgroup>
+            <optgroup label="iPhone 15 Series">
+              <option value="1200">iPhone 15 Pro Max</option>
+              <option value="1000">iPhone 15 Pro</option>
+              <option value="850">iPhone 15 Plus</option>
+              <option value="750">iPhone 15</option>
+            </optgroup>
+            <optgroup label="iPhone 14 Series">
+              <option value="950">iPhone 14 Pro Max</option>
+              <option value="850">iPhone 14 Pro</option>
+              <option value="700">iPhone 14 Plus</option>
+              <option value="650">iPhone 14</option>
+            </optgroup>
+            <optgroup label="iPhone 13 Series">
+              <option value="750">iPhone 13 Pro Max</option>
+              <option value="650">iPhone 13 Pro</option>
+              <option value="550">iPhone 13</option>
+              <option value="450">iPhone 13 mini</option>
+            </optgroup>
+            <optgroup label="iPhone 12 Series">
+              <option value="550">iPhone 12 Pro Max</option>
+              <option value="480">iPhone 12 Pro</option>
+              <option value="400">iPhone 12</option>
+              <option value="350">iPhone 12 mini</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="prixIphoneEuro">Prix unitaire d'achat (€)</label>
+          <input type="number" id="prixIphoneEuro" value="969">
+        </div>
+
+        <div class="form-group">
+          <label for="prixVenteDa">Prix de vente estimé (DA)</label>
+          <input type="number" id="prixVenteDa" value="280000">
+        </div>
+      </div>
+    </div>
+
+    <!-- TAUX DE CHANGE -->
+    <div class="card card-rates">
+      <h2 class="card-title">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12.89 11.1c-1.78-.59-2.64-.96-2.64-1.9 0-1.02 1.11-1.39 1.81-1.39 1.31 0 2.22.62 2.52 1.44l2.12-.88C16.14 6.81 14.5 5.5 12.5 5.5V3h-2v2.53c-2.31.42-4 2.05-4 4.19 0 2.68 2.37 3.58 4.64 4.3 2.09.68 2.64 1.32 2.64 2.24 0 .84-.7 1.63-2.11 1.63-1.68 0-2.64-.89-3.03-1.98l-2.12.87c.62 2.21 2.39 3.42 4.48 3.75V21h2v-2.5c2.47-.44 4.25-2.06 4.25-4.43 0-3.17-2.58-3.92-4.37-4.97z"/></svg>
+        Taux de Change
+      </h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="tauxBanque">
+            Taux DA Banque 
+            <a class="source-link" href="https://www.google.com/finance/beta/quote/EUR-DZD" target="_blank">🔗 Voir</a>
+          </label>
+          <input type="number" id="tauxBanque" step="0.01" value="154.00">
+        </div>
+        <div class="form-group">
+          <label for="tauxSquare">
+            Taux DA Square 
+            <a class="source-link" href="https://devisesquare.com/#EUR" target="_blank">🔗 Voir</a>
+          </label>
+          <input type="number" id="tauxSquare" step="0.01" value="278.00">
+        </div>
+      </div>
+    </div>
+
+    <!-- FRAIS DE VOYAGE -->
+    <div class="card card-travel full-width">
+      <h2 class="card-title">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+        Détail des Frais de Voyage (€)
+      </h2>
+      <div class="form-grid form-grid-3">
+        <div class="form-group">
+          <label for="fraisAvion">Billet d'avion</label>
+          <input type="number" id="fraisAvion" value="150">
+        </div>
+        <div class="form-group">
+          <label for="fraisHotel">Hôtel / Logement</label>
+          <input type="number" id="fraisHotel" value="100">
+        </div>
+        <div class="form-group">
+          <label for="fraisSurPlace">Dépenses sur place</label>
+          <input type="number" id="fraisSurPlace" value="50">
+        </div>
+      </div>
+    </div>
+
+    <div class="full-width">
+      <button class="btn-calc" onclick="calculer()">
+        <svg class="icon" style="color:white;" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        Calculer la rentabilité
+      </button>
+    </div>
+
+    <!-- RÉSULTATS -->
+    <div class="card card-results full-width" id="outputBlock" style="display:none;">
+      <h2 class="card-title">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14I-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        Bilan Financier & Résultats
+      </h2>
+      
+      <div class="results-list">
+        <div class="result-item">
+          <span class="lbl">Prix total iPhone (€)</span>
+          <span class="val" id="prixTotalIphoneEuro"></span>
+        </div>
+        <div class="result-item">
+          <span class="lbl">Prix iPhone Square (DA)</span>
+          <span class="val" id="prixIphoneSquareDa"></span>
+        </div>
+        <div class="result-item">
+          <span class="lbl">Prix iPhone Banque (DA)</span>
+          <span class="val" id="prixIphoneBanqueDa"></span>
+        </div>
+        
+        <!-- Frais & Taxes -->
+        <div class="result-item expense">
+          <span class="lbl">Taxe Douane 5% (DA)</span>
+          <span class="val" id="taxeDouaneDa"></span>
+        </div>
+        <div class="result-item expense">
+          <span class="lbl">Impôt sur le revenu 0,5% (DA)</span>
+          <span class="val" id="impotRevenuDa"></span>
+        </div>
+        <div class="result-item expense">
+          <span class="lbl">Frais bancaires 2% (€)</span>
+          <span class="val" id="fraisBancairesEuro"></span>
+        </div>
+        <div class="result-item expense">
+          <span class="lbl">Total frais de voyage (€)</span>
+          <span class="val" id="totalVoyageEuro"></span>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border); margin: 8px 0;">
+
+        <div class="result-item">
+          <span class="lbl">Prix total par iPhone (DA)</span>
+          <span class="val" id="prixTotalParIphoneDa"></span>
+        </div>
+        <div class="result-item">
+          <span class="lbl">Prix total par iPhone (€)</span>
+          <span class="val" id="prixTotalParIphoneEuro"></span>
+        </div>
+
+        <!-- RÉSULTATS DYNAMIQUES -->
+        <div class="result-item kpi" id="kpiBenefDa">
+          <span class="lbl">Bénéfice total (DA)</span>
+          <span class="val" id="beneficeDa"></span>
+        </div>
+        <div class="result-item kpi" id="kpiBenefEuro">
+          <span class="lbl">Bénéfice total (€)</span>
+          <span class="val" id="beneficeEuro"></span>
+        </div>
+        <div class="result-item kpi" id="kpiPct">
+          <span class="lbl">Rentabilité (% Bénéfice)</span>
+          <span class="val" id="pctBenefice"></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Générer les options du select Quantité de 1 à 100
+const selectNb = document.getElementById('nbIphone');
+for (let i = 1; i <= 100; i++) {
+  const opt = document.createElement('option');
+  opt.value = i;
+  opt.textContent = i;
+  if (i === 5) opt.selected = true;
+  selectNb.appendChild(opt);
+}
+
+// Mise à jour automatique du champ Prix lors du changement d'option dans le menu iPhone
+function updatePrixIphone() {
+  const selectModele = document.getElementById('modeleIphone');
+  const prixInput = document.getElementById('prixIphoneEuro');
+  prixInput.value = selectModele.value;
+}
+
+function calculer() {
+  const nbIphone = parseFloat(document.getElementById('nbIphone').value) || 0;
+  const prixIphoneEuro = parseFloat(document.getElementById('prixIphoneEuro').value) || 0;
+  const prixVenteDa = parseFloat(document.getElementById('prixVenteDa').value) || 0;
+  const tauxBanque = parseFloat(document.getElementById('tauxBanque').value) || 1;
+  const tauxSquare = parseFloat(document.getElementById('tauxSquare').value) || 1;
+
+  const fraisAvion = parseFloat(document.getElementById('fraisAvion').value) || 0;
+  const fraisHotel = parseFloat(document.getElementById('fraisHotel').value) || 0;
+  const fraisSurPlace = parseFloat(document.getElementById('fraisSurPlace').value) || 0;
+  const fraisVoyageEuro = fraisAvion + fraisHotel + fraisSurPlace;
+
+  if (nbIphone <= 0) return alert("Le nombre d'iPhone doit être supérieur à 0");
+
+  const prixTotalIphoneEuro = nbIphone * prixIphoneEuro;
+  const prixIphoneSquareDa = prixTotalIphoneEuro * tauxSquare;
+  const prixIphoneBanqueDa = prixTotalIphoneEuro * tauxBanque;
+  
+  const taxeDouaneDa = 0.05 * prixIphoneBanqueDa;
+  const impotRevenuDa = 0.005 * prixIphoneBanqueDa;
+  const fraisBancairesEuro = 0.02 * prixTotalIphoneEuro;
+  const fraisBancairesDa = fraisBancairesEuro * tauxSquare;
+  const fraisVoyageDa = fraisVoyageEuro * tauxSquare;
+
+  const coutTotalInvestiDa = prixIphoneSquareDa + taxeDouaneDa + impotRevenuDa + fraisBancairesDa + fraisVoyageDa;
+  const prixTotalParIphoneDa = coutTotalInvestiDa / nbIphone;
+  const prixTotalParIphoneEuro = prixTotalParIphoneDa / tauxSquare;
+
+  const beneficeUnitaireDa = prixVenteDa - prixTotalParIphoneDa;
+  const beneficeTotalDa = nbIphone * beneficeUnitaireDa;
+  const beneficeTotalEuro = beneficeTotalDa / tauxSquare;
+  
+  const pctBenef = (beneficeTotalDa / coutTotalInvestiDa) * 100;
+
+  const fmtEUR = (val) => val.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  const fmtDZD = (val) => val.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " DA";
+
+  document.getElementById('prixTotalIphoneEuro').innerText = fmtEUR(prixTotalIphoneEuro);
+  document.getElementById('prixIphoneSquareDa').innerText = fmtDZD(prixIphoneSquareDa);
+  document.getElementById('prixIphoneBanqueDa').innerText = fmtDZD(prixIphoneBanqueDa);
+  document.getElementById('taxeDouaneDa').innerText = fmtDZD(taxeDouaneDa);
+  document.getElementById('impotRevenuDa').innerText = fmtDZD(impotRevenuDa);
+  document.getElementById('fraisBancairesEuro').innerText = fmtEUR(fraisBancairesEuro);
+  document.getElementById('totalVoyageEuro').innerText = fmtEUR(fraisVoyageEuro) + " (" + fmtDZD(fraisVoyageDa) + ")";
+  document.getElementById('prixTotalParIphoneDa').innerText = fmtDZD(prixTotalParIphoneDa);
+  document.getElementById('prixTotalParIphoneEuro').innerText = fmtEUR(prixTotalParIphoneEuro);
+  
+  document.getElementById('beneficeDa').innerText = fmtDZD(beneficeTotalDa);
+  document.getElementById('beneficeEuro').innerText = fmtEUR(beneficeTotalEuro);
+  document.getElementById('pctBenefice').innerText = pctBenef.toFixed(2) + " %";
+
+  const kpiElements = [
+    document.getElementById('kpiBenefDa'),
+    document.getElementById('kpiBenefEuro'),
+    document.getElementById('kpiPct')
+  ];
+
+  kpiElements.forEach(el => {
+    el.classList.remove('status-profit', 'status-loss');
+    if (beneficeTotalDa >= 0) {
+      el.classList.add('status-profit');
+    } else {
+      el.classList.add('status-loss');
+    }
+  });
+
+  document.getElementById('outputBlock').style.display = 'block';
+  document.getElementById('outputBlock').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
