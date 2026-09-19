@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Calculateur Rentabilité iPhone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .card-accent-primary { border-top: 4px solid #3b82f6; }
+    .card-accent-purple { border-top: 4px solid #8b5cf6; }
+    .card-accent-orange { border-top: 4px solid #f97316; }
+    .card-accent-emerald { border-top: 4px solid #10b981; }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .pb-safe-bottom { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+  </style>
+</head>
+<body class="min-h-full pb-safe-bottom text-slate-900 bg-slate-100 antialiased">
+
+<div class="max-w-4xl mx-auto px-3 sm:px-6 pt-4 sm:pt-8 space-y-4 sm:space-y-6">
+  
+  <header class="text-center px-2">
+    <div class="inline-flex items-center justify-center p-2.5 bg-blue-600 text-white rounded-2xl shadow-md mb-2">
+      <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+      </svg>
+    </div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Rentabilité iPhone</h1>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+
+    <div class="lg:col-span-2 space-y-4 sm:space-y-6">
+      
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200/80 card-accent-primary space-y-3.5">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Ajouter un iPhone
+          </h2>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Modèle</label>
+            <select id="presetSelect" onchange="applyPreset()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-500 p-2.5 sm:p-3 outline-none transition">
+              <optgroup label="iPhone 18 Series">
+                <option value="iPhone 18 Pro Max|1560|380000">iPhone 18 Pro Max</option>
+                <option value="iPhone 18 Pro|1320|320000">iPhone 18 Pro</option>
+                <option value="iPhone 18 Plus|1080|280000">iPhone 18 Plus</option>
+                <option value="iPhone 18|960|250000">iPhone 18</option>
+              </optgroup>
+              <optgroup label="iPhone 17 Series">
+                <option value="iPhone 17 Pro Max|1479|360000">iPhone 17 Pro Max</option>
+                <option value="iPhone 17 Pro|1229|310000">iPhone 17 Pro</option>
+                <option value="iPhone 17 Air|1119|280000">iPhone 17 Air / Slim</option>
+                <option value="iPhone 17|969|250000">iPhone 17</option>
+              </optgroup>
+              <optgroup label="iPhone 16 Series">
+                <option value="iPhone 16 Pro Max|1479|350000">iPhone 16 Pro Max</option>
+                <option value="iPhone 16 Pro|1229|300000">iPhone 16 Pro</option>
+                <option value="iPhone 16 Plus|1119|270000">iPhone 16 Plus</option>
+                <option value="iPhone 16|969|245000" selected>iPhone 16</option>
+                <option value="iPhone SE 4|659|160000">iPhone SE 4</option>
+              </optgroup>
+              <optgroup label="iPhone 15 Series">
+                <option value="iPhone 15 Pro Max|1200|290000">iPhone 15 Pro Max</option>
+                <option value="iPhone 15 Pro|1000|245000">iPhone 15 Pro</option>
+                <option value="iPhone 15 Plus|850|205000">iPhone 15 Plus</option>
+                <option value="iPhone 15|750|180000">iPhone 15</option>
+              </optgroup>
+              <optgroup label="iPhone 14 Series">
+                <option value="iPhone 14 Pro Max|950|225000">iPhone 14 Pro Max</option>
+                <option value="iPhone 14 Pro|850|200000">iPhone 14 Pro</option>
+                <option value="iPhone 14 Plus|700|165000">iPhone 14 Plus</option>
+                <option value="iPhone 14|650|150000">iPhone 14</option>
+              </optgroup>
+              <optgroup label="iPhone 13 Series">
+                <option value="iPhone 13 Pro Max|750|180000">iPhone 13 Pro Max</option>
+                <option value="iPhone 13 Pro|650|155000">iPhone 13 Pro</option>
+                <option value="iPhone 13|550|130000">iPhone 13</option>
+                <option value="iPhone 13 mini|450|110000">iPhone 13 mini</option>
+              </optgroup>
+              <optgroup label="iPhone 12 Series">
+                <option value="iPhone 12 Pro Max|550|135000">iPhone 12 Pro Max</option>
+                <option value="iPhone 12 Pro|480|120000">iPhone 12 Pro</option>
+                <option value="iPhone 12|400|100000">iPhone 12</option>
+                <option value="iPhone 12 mini|350|85000">iPhone 12 mini</option>
+              </optgroup>
+              <option value="Personnalisé|0|0">-- Personnalisé --</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Nom</label>
+              <input type="text" id="inputModelName" value="iPhone 16" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Quantité (1 à 50)</label>
+              <select id="inputQuantity" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Achat (€)</label>
+              <input type="number" id="inputBuyPrice" value="969" min="0" step="1" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Vente (DA)</label>
+              <input type="number" id="inputSellPrice" value="245000" min="0" step="1000" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+          </div>
+        </div>
+
+        <button onclick="addIphoneToCart()" class="w-full active:scale-[0.98] bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition duration-150 flex items-center justify-center gap-2 shadow-sm text-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Ajouter au panier
+        </button>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200/80 space-y-3.5">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+          <div class="flex items-center gap-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-900">Panier</h2>
+            <span id="badgeTotalItems" class="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-0.5 rounded-full">0 iPhone</span>
+          </div>
+          <button onclick="clearCart()" class="text-xs text-red-500 hover:text-red-700 font-semibold py-1 px-2 rounded-lg hover:bg-red-50 transition">Vider</button>
+        </div>
+
+        <div id="cartMobileList" class="space-y-2.5 sm:hidden">
+        </div>
+
+        <div class="hidden sm:block overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-slate-50 text-xs uppercase text-slate-500 font-semibold border-y border-slate-200">
+              <tr>
+                <th class="py-2.5 px-3">Modèle</th>
+                <th class="py-2.5 px-2 text-center">Qté</th>
+                <th class="py-2.5 px-3 text-right">Achat (€)</th>
+                <th class="py-2.5 px-3 text-right">Vente (DA)</th>
+                <th class="py-2.5 px-3 text-right">Total (€)</th>
+                <th class="py-2.5 px-2 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="cartTableBody" class="divide-y divide-slate-100">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="space-y-4 sm:space-y-6">
+
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200/80 card-accent-purple space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+          <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Taux de Change
+        </h2>
+
+        <div class="grid grid-cols-2 lg:grid-cols-1 gap-2.5">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-[11px] font-bold text-slate-500 uppercase">Banque (DA)</label>
+              <a href="https://www.google.com/finance/beta/quote/EUR-DZD" target="_blank" class="text-[11px] text-blue-600 hover:underline">🔗 Google</a>
+            </div>
+            <input type="number" id="tauxBanque" value="154.00" step="0.01" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-purple-500 outline-none">
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-[11px] font-bold text-slate-500 uppercase">Square (DA)</label>
+              <a href="https://devisesquare.com/#EUR" target="_blank" class="text-[11px] text-blue-600 hover:underline">🔗 Square</a>
+            </div>
+            <input type="number" id="tauxSquare" value="278.00" step="0.01" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-purple-500 outline-none">
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200/80 card-accent-orange space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V11a2 2 0 012-2h1.055M11 20.055V18a2 2 0 012-2h2.5a2 2 0 002.5-2.5v-1a2 2 0 012-2h1.055"></path>
+          </svg>
+          Frais Voyage (€)
+        </h2>
+
+        <div class="grid grid-cols-3 lg:grid-cols-1 gap-2 sm:gap-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Avion</label>
+            <input type="number" id="fraisAvion" value="450" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2 focus:ring-2 focus:ring-orange-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Hôtel</label>
+            <input type="number" id="fraisHotel" value="150" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2 focus:ring-2 focus:ring-orange-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Sur Place</label>
+            <input type="number" id="fraisSurPlace" value="200" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl p-2 focus:ring-2 focus:ring-orange-500 outline-none">
+          </div>
+        </div>
+
+        <div class="p-3 bg-orange-50/80 border border-orange-200/80 rounded-xl flex justify-between items-center text-xs sm:text-sm">
+          <span class="font-medium text-orange-900">Total Frais Fixes :</span>
+          <span id="txtTotalFraisFixes" class="font-extrabold text-orange-950">800,00 €</span>
+        </div>
+      </div>
+
+      <button onclick="calculerRentabilite()" class="hidden lg:flex w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-2xl shadow-md transition duration-150 items-center justify-center gap-2 text-base">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+        </svg>
+        Calculer Bilan Global
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="outputBlock" class="hidden bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-slate-200/80 card-accent-emerald space-y-5">
+    
+    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+      <h2 class="text-base sm:text-xl font-bold text-slate-900 flex items-center gap-2">
+        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Bilan Financier Global
+      </h2>
+      <span id="badgeBilanIphones" class="bg-emerald-100 text-emerald-800 font-bold text-xs px-2.5 py-1 rounded-full"></span>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
+      <div id="cardTotalDepensesEuro" class="p-3 sm:p-4 rounded-xl border transition bg-slate-50 border-slate-200 text-slate-900">
+        <p class="text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-slate-500">Total Dépenses (€)</p>
+        <p id="resTotalDepensesEuro" class="text-base sm:text-2xl font-black mt-0.5 text-slate-900">0 €</p>
+      </div>
+
+      <div id="cardBenefEuro" class="p-3 sm:p-4 rounded-xl border transition">
+        <p class="text-[10px] sm:text-xs uppercase tracking-wider font-semibold opacity-80">Bénéfice (€)</p>
+        <p id="resBenefEuro" class="text-base sm:text-2xl font-black mt-0.5">0 €</p>
+      </div>
+
+      <div id="cardRentabilite" class="p-3 sm:p-4 rounded-xl border transition">
+        <p class="text-[10px] sm:text-xs uppercase tracking-wider font-semibold opacity-80">Rentabilité</p>
+        <p id="resRentabilite" class="text-base sm:text-2xl font-black mt-0.5">0 %</p>
+      </div>
+
+      <div id="cardCoutBanque" class="p-3 sm:p-4 rounded-xl border transition bg-slate-50 border-slate-200 text-slate-800">
+        <p class="text-[10px] sm:text-xs uppercase tracking-wider font-semibold" id="lblCoutBanque">Coût Total (Taux Banque)</p>
+        <p id="resCoutBanqueDa" class="text-base sm:text-2xl font-black mt-0.5">0 DA</p>
+      </div>
+    </div>
+
+    <div class="pt-1">
+      <button onclick="toggleDetails()" class="w-full flex items-center justify-between p-3.5 bg-slate-100 hover:bg-slate-200/80 rounded-xl transition text-slate-800 font-bold text-xs sm:text-sm">
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Détail des calculs & ventilation par modèle
+        </span>
+        <svg id="chevronDetails" class="w-4 h-4 transition-transform transform rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+
+      <div id="collapsibleDetails" class="hidden mt-3 space-y-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="space-y-2.5 bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 text-xs sm:text-sm">
+            <h3 class="font-bold text-slate-900 border-b border-slate-200 pb-2">Détail des Coûts (Square vs Banque)</h3>
+            
+            <div class="flex justify-between text-slate-600">
+              <span>Total Achat (€) :</span>
+              <span id="resTotalAchatEuro" class="font-semibold text-slate-900"></span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Achat Square (DA) :</span>
+              <span id="resTotalAchatSquareDa" class="font-semibold text-slate-900"></span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Achat Banque (DA) :</span>
+              <span id="resTotalAchatBanqueDa" class="font-semibold text-slate-900"></span>
+            </div>
+            <hr class="border-slate-200">
+            <div class="flex justify-between text-red-600">
+              <span>Douane (5% Banque) :</span>
+              <span id="resTaxeDouaneDa" class="font-semibold"></span>
+            </div>
+            <div class="flex justify-between text-red-600">
+              <span>Impôt IRG (0.5% Banque) :</span>
+              <span id="resImpotRevenuDa" class="font-semibold"></span>
+            </div>
+            <div class="flex justify-between text-red-600">
+              <span>Frais bancaires (2% €) :</span>
+              <span id="resFraisBancairesEuro" class="font-semibold"></span>
+            </div>
+            <div class="flex justify-between text-orange-600">
+              <span>Voyage fixe (DA) :</span>
+              <span id="resFraisVoyageDa" class="font-semibold"></span>
+            </div>
+            <hr class="border-slate-200">
+            <div class="flex justify-between text-sm sm:text-base font-bold text-slate-900">
+              <span>Coût Total Réel - Square (DA) :</span>
+              <span id="resCoutTotalInvestiDa" class="text-blue-700"></span>
+            </div>
+            <div class="flex justify-between text-xs sm:text-sm font-bold text-slate-700">
+              <span>Coût Total Réel - Square (€) :</span>
+              <span id="resCoutTotalInvestiEuro"></span>
+            </div>
+          </div>
+
+          <div class="space-y-2.5 bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 text-xs sm:text-sm">
+            <h3 class="font-bold text-slate-900 border-b border-slate-200 pb-2">Moyenne Unitaire</h3>
+
+            <div class="flex justify-between text-slate-600">
+              <span>Poids Voyage / Unité (€) :</span>
+              <span id="resImpactVoyageUniteEuro" class="font-semibold text-slate-900"></span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Revient Moyen (DA) :</span>
+              <span id="resCoutMoyenRevientDa" class="font-semibold text-slate-900"></span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Revient Moyen (€) :</span>
+              <span id="resCoutMoyenRevientEuro" class="font-semibold text-slate-900"></span>
+            </div>
+            <hr class="border-slate-200">
+            <div class="flex justify-between text-slate-600">
+              <span>Vente Moyenne (DA) :</span>
+              <span id="resPrixVenteMoyenDa" class="font-semibold text-slate-900"></span>
+            </div>
+            <div class="flex justify-between text-sm sm:text-base font-bold text-slate-900">
+              <span>Bénéfice Moyen (DA) :</span>
+              <span id="resBenefMoyenDa" class="text-emerald-700"></span>
+            </div>
+            <div class="flex justify-between text-xs sm:text-sm font-bold text-slate-700">
+              <span>Bénéfice Moyen (€) :</span>
+              <span id="resBenefMoyenEuro"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2 bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200">
+          <h3 class="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+            Ventilation par Modèle (Stricte en €)
+          </h3>
+          <div class="overflow-x-auto -mx-1">
+            <table class="w-full text-left text-xs text-slate-600 border border-slate-200 rounded-xl overflow-hidden">
+              <thead class="bg-slate-200/70 text-slate-800 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="py-2.5 px-2.5">Modèle</th>
+                  <th class="py-2.5 px-1 text-center">Qté</th>
+                  <th class="py-2.5 px-2 text-right">Achat Unit. (€)</th>
+                  <th class="py-2.5 px-2 text-right">Revient Unit. (€)</th>
+                  <th class="py-2.5 px-2 text-right">Vente Unit. (€)</th>
+                  <th class="py-2.5 px-2 text-right">Bénéf. Unit. (€)</th>
+                  <th class="py-2.5 px-2 text-right">Bénéf. Total (€)</th>
+                </tr>
+              </thead>
+              <tbody id="breakdownTableBody" class="divide-y divide-slate-200/80 bg-white">
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="fixed bottom-0 left-0 right-0 lg:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 p-3 shadow-lg z-50">
+  <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 px-1">
+    <div class="flex flex-col">
+      <span class="text-[10px] text-slate-400 uppercase font-semibold">Total Panier</span>
+      <span id="stickyCartSummary" class="text-xs font-bold text-slate-800">0 iPhone</span>
+    </div>
+
+    <button onclick="calculerRentabilite()" class="flex-1 active:scale-[0.98] bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl shadow transition flex items-center justify-center gap-1.5 text-sm">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+      </svg>
+      Calculer Rentabilité
+    </button>
+  </div>
+</div>
+
+<script>
+let cart = [
+  { id: 1, name: 'iPhone 16 Pro Max', quantity: 2, buyPriceEuro: 1479, sellPriceDa: 350000 },
+  { id: 2, name: 'iPhone 16 Pro', quantity: 3, buyPriceEuro: 1229, sellPriceDa: 300000 },
+  { id: 3, name: 'iPhone 16', quantity: 1, buyPriceEuro: 969, sellPriceDa: 245000 }
+];
+
+window.onload = function() {
+  populateQuantitySelects();
+  renderCart();
+  updateTotalFraisFixes();
+
+  document.getElementById('fraisAvion').addEventListener('input', updateTotalFraisFixes);
+  document.getElementById('fraisHotel').addEventListener('input', updateTotalFraisFixes);
+  document.getElementById('fraisSurPlace').addEventListener('input', updateTotalFraisFixes);
+};
+
+function populateQuantitySelects() {
+  const selectQty = document.getElementById('inputQuantity');
+  if (!selectQty) return;
+  selectQty.innerHTML = '';
+  for (let i = 1; i <= 50; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i;
+    if (i === 1) opt.selected = true;
+    selectQty.appendChild(opt);
+  }
+}
+
+function applyPreset() {
+  const preset = document.getElementById('presetSelect').value;
+  if (preset === 'Personnalisé|0|0') {
+    document.getElementById('inputModelName').value = 'iPhone ';
+    document.getElementById('inputBuyPrice').value = 0;
+    document.getElementById('inputSellPrice').value = 0;
+    return;
+  }
+  const [name, buyPrice, sellPrice] = preset.split('|');
+  document.getElementById('inputModelName').value = name;
+  document.getElementById('inputBuyPrice').value = buyPrice;
+  document.getElementById('inputSellPrice').value = sellPrice;
+}
+
+function updateTotalFraisFixes() {
+  const avion = parseFloat(document.getElementById('fraisAvion').value) || 0;
+  const hotel = parseFloat(document.getElementById('fraisHotel').value) || 0;
+  const surPlace = parseFloat(document.getElementById('fraisSurPlace').value) || 0;
+  const total = avion + hotel + surPlace;
+  document.getElementById('txtTotalFraisFixes').innerText = total.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+
+function toggleDetails() {
+  const details = document.getElementById('collapsibleDetails');
+  const chevron = document.getElementById('chevronDetails');
+  if (details.classList.contains('hidden')) {
+    details.classList.remove('hidden');
+    chevron.classList.add('rotate-180');
+  } else {
+    details.classList.add('hidden');
+    chevron.classList.remove('rotate-180');
+  }
+}
+
+function addIphoneToCart() {
+  const name = document.getElementById('inputModelName').value.trim();
+  const quantity = parseInt(document.getElementById('inputQuantity').value) || 0;
+  const buyPriceEuro = parseFloat(document.getElementById('inputBuyPrice').value) || 0;
+  const sellPriceDa = parseFloat(document.getElementById('inputSellPrice').value) || 0;
+
+  if (!name) return alert("Veuillez entrer un nom de modèle.");
+  if (quantity <= 0) return alert("La quantité doit être supérieure à 0.");
+  if (buyPriceEuro <= 0) return alert("Le prix d'achat doit être supérieur à 0.");
+
+  const existing = cart.find(item => item.name.toLowerCase() === name.toLowerCase() && item.buyPriceEuro === buyPriceEuro);
+  if (existing) {
+    existing.quantity = Math.min(50, existing.quantity + quantity);
+    existing.sellPriceDa = sellPriceDa;
+  } else {
+    cart.push({
+      id: Date.now(),
+      name,
+      quantity,
+      buyPriceEuro,
+      sellPriceDa
+    });
+  }
+
+  renderCart();
+}
+
+function removeItem(id) {
+  cart = cart.filter(item => item.id !== id);
+  renderCart();
+}
+
+function updateQuantity(id, newQty) {
+  const qty = parseInt(newQty);
+  if (isNaN(qty) || qty <= 0) return;
+  const item = cart.find(i => i.id === id);
+  if (item) {
+    item.quantity = qty;
+    renderCart();
+  }
+}
+
+function clearCart() {
+  if (cart.length === 0) return;
+  cart = [];
+  renderCart();
+  document.getElementById('outputBlock').classList.add('hidden');
+}
+
+function renderCart() {
+  const mobileList = document.getElementById('cartMobileList');
+  const desktopTbody = document.getElementById('cartTableBody');
+  
+  mobileList.innerHTML = '';
+  desktopTbody.innerHTML = '';
+
+  let totalCount = 0;
+  let totalEuroSum = 0;
+
+  if (cart.length === 0) {
+    const emptyHtml = `<div class="py-6 text-center text-slate-400 italic text-xs sm:text-sm">Votre panier est vide.</div>`;
+    mobileList.innerHTML = emptyHtml;
+    desktopTbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-400 italic">Votre panier est vide.</td></tr>`;
+  } else {
+    cart.forEach(item => {
+      totalCount += item.quantity;
+      const totalEuro = item.quantity * item.buyPriceEuro;
+      totalEuroSum += totalEuro;
+
+      let qtyOptions = '';
+      for (let i = 1; i <= 50; i++) {
+        qtyOptions += `<option value="${i}" ${i === item.quantity ? 'selected' : ''}>${i}</option>`;
+      }
+
+      const mobileCard = document.createElement('div');
+      mobileCard.className = 'bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-2 text-xs';
+      mobileCard.innerHTML = `
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-bold text-slate-900 text-sm">${item.name}</h4>
+            <span class="text-slate-500">${item.buyPriceEuro.toLocaleString('fr-FR')} € / unité</span>
+          </div>
+          <button onclick="removeItem(${item.id})" class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+        </div>
+        <div class="flex items-center justify-between border-t border-slate-200/60 pt-2 text-slate-700">
+          <div class="flex items-center gap-1.5">
+            <span class="font-semibold">Qté:</span>
+            <select onchange="updateQuantity(${item.id}, this.value)" class="bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-bold text-slate-900 focus:outline-none">
+              ${qtyOptions}
+            </select>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-400 block">Vente: ${item.sellPriceDa.toLocaleString('fr-FR')} DA</span>
+            <span class="font-bold text-slate-900 text-sm">${totalEuro.toLocaleString('fr-FR')} €</span>
+          </div>
+        </div>
+      `;
+      mobileList.appendChild(mobileCard);
+
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50 transition';
+      tr.innerHTML = `
+        <td class="py-2.5 px-3 font-semibold text-slate-800">${item.name}</td>
+        <td class="py-2.5 px-2 text-center">
+          <select onchange="updateQuantity(${item.id}, this.value)" class="w-16 text-center bg-slate-100 border border-slate-300 rounded p-1 text-xs font-semibold">
+            ${qtyOptions}
+          </select>
+        </td>
+        <td class="py-2.5 px-3 text-right">${item.buyPriceEuro.toLocaleString('fr-FR')} €</td>
+        <td class="py-2.5 px-3 text-right">${item.sellPriceDa.toLocaleString('fr-FR')} DA</td>
+        <td class="py-2.5 px-3 text-right font-bold text-slate-900">${totalEuro.toLocaleString('fr-FR')} €</td>
+        <td class="py-2.5 px-2 text-center">
+          <button onclick="removeItem(${item.id})" class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+        </td>
+      `;
+      desktopTbody.appendChild(tr);
+    });
+  }
+
+  const itemTxt = `${totalCount} iPhone${totalCount > 1 ? 's' : ''}`;
+  document.getElementById('badgeTotalItems').innerText = itemTxt;
+  document.getElementById('stickyCartSummary').innerText = `${itemTxt} (${totalEuroSum.toLocaleString('fr-FR')} €)`;
+}
+
+function calculerRentabilite() {
+  if (cart.length === 0) {
+    alert("Veuillez ajouter au moins un iPhone à votre panier.");
+    return;
+  }
+
+  const tauxBanque = parseFloat(document.getElementById('tauxBanque').value) || 1;
+  const tauxSquare = parseFloat(document.getElementById('tauxSquare').value) || 1;
+
+  const fraisAvion = parseFloat(document.getElementById('fraisAvion').value) || 0;
+  const fraisHotel = parseFloat(document.getElementById('fraisHotel').value) || 0;
+  const fraisSurPlace = parseFloat(document.getElementById('fraisSurPlace').value) || 0;
+  const totalFraisVoyageEuro = fraisAvion + fraisHotel + fraisSurPlace;
+  const totalFraisVoyageDa = totalFraisVoyageEuro * tauxSquare;
+
+  let totalIphonesCount = 0;
+  let totalAchatEuro = 0;
+  let totalCaEstimeDa = 0;
+
+  cart.forEach(item => {
+    totalIphonesCount += item.quantity;
+    totalAchatEuro += item.quantity * item.buyPriceEuro;
+    totalCaEstimeDa += item.quantity * item.sellPriceDa;
+  });
+
+  const totalAchatSquareDa = totalAchatEuro * tauxSquare;
+  const totalAchatBanqueDa = totalAchatEuro * tauxBanque;
+
+  const taxeDouaneDa = 0.05 * totalAchatBanqueDa;
+  const impotRevenuDa = 0.005 * totalAchatBanqueDa;
+  const fraisBancairesEuro = 0.02 * totalAchatEuro;
+  const fraisBancairesDa = fraisBancairesEuro * tauxSquare;
+
+  const coutTotalInvestiDa = totalAchatSquareDa + taxeDouaneDa + impotRevenuDa + fraisBancairesDa + totalFraisVoyageDa;
+  const coutTotalInvestiEuro = coutTotalInvestiDa / tauxSquare;
+
+  const coutTotalBanqueDa = totalAchatBanqueDa + taxeDouaneDa + impotRevenuDa + fraisBancairesDa + totalFraisVoyageDa;
+
+  const beneficeTotalDa = totalCaEstimeDa - coutTotalInvestiDa;
+  const beneficeTotalEuro = beneficeTotalDa / tauxSquare;
+  const rentabilitePct = (beneficeTotalDa / coutTotalInvestiDa) * 100;
+
+  const impactVoyageUniteEuro = totalFraisVoyageEuro / totalIphonesCount;
+  const coutMoyenRevientDa = coutTotalInvestiDa / totalIphonesCount;
+  const coutMoyenRevientEuro = coutMoyenRevientDa / tauxSquare;
+  const prixVenteMoyenDa = totalCaEstimeDa / totalIphonesCount;
+  const benefMoyenDa = beneficeTotalDa / totalIphonesCount;
+  const benefMoyenEuro = benefMoyenDa / tauxSquare;
+
+  const fmtEUR = (val) => val.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  const fmtDZD = (val) => val.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " DA";
+
+  document.getElementById('badgeBilanIphones').innerText = `${totalIphonesCount} iPhone${totalIphonesCount > 1 ? 's' : ''}`;
+  
+  document.getElementById('resTotalDepensesEuro').innerText = fmtEUR(coutTotalInvestiEuro);
+  document.getElementById('resBenefEuro').innerText = fmtEUR(beneficeTotalEuro);
+  document.getElementById('resRentabilite').innerText = rentabilitePct.toFixed(2) + " %";
+  document.getElementById('resCoutBanqueDa').innerText = fmtDZD(coutTotalBanqueDa);
+
+  document.getElementById('resTotalAchatEuro').innerText = fmtEUR(totalAchatEuro);
+  document.getElementById('resTotalAchatSquareDa').innerText = fmtDZD(totalAchatSquareDa);
+  document.getElementById('resTotalAchatBanqueDa').innerText = fmtDZD(totalAchatBanqueDa);
+
+  document.getElementById('resTaxeDouaneDa').innerText = fmtDZD(taxeDouaneDa);
+  document.getElementById('resImpotRevenuDa').innerText = fmtDZD(impotRevenuDa);
+  document.getElementById('resFraisBancairesEuro').innerText = fmtEUR(fraisBancairesEuro) + ` (${fmtDZD(fraisBancairesDa)})`;
+  document.getElementById('resFraisVoyageDa').innerText = fmtDZD(totalFraisVoyageDa) + ` (${fmtEUR(totalFraisVoyageEuro)})`;
+
+  document.getElementById('resCoutTotalInvestiDa').innerText = fmtDZD(coutTotalInvestiDa);
+  document.getElementById('resCoutTotalInvestiEuro').innerText = fmtEUR(coutTotalInvestiEuro);
+
+  document.getElementById('resImpactVoyageUniteEuro').innerText = fmtEUR(impactVoyageUniteEuro);
+  document.getElementById('resCoutMoyenRevientDa').innerText = fmtDZD(coutMoyenRevientDa);
+  document.getElementById('resCoutMoyenRevientEuro').innerText = fmtEUR(coutMoyenRevientEuro);
+  document.getElementById('resPrixVenteMoyenDa').innerText = fmtDZD(prixVenteMoyenDa);
+  document.getElementById('resBenefMoyenDa').innerText = fmtDZD(benefMoyenDa);
+  document.getElementById('resBenefMoyenEuro').innerText = fmtEUR(benefMoyenEuro);
+
+  const cardBenefEuro = document.getElementById('cardBenefEuro');
+  const cardRentabilite = document.getElementById('cardRentabilite');
+
+  if (beneficeTotalDa >= 0) {
+    cardBenefEuro.className = "p-3 sm:p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-950";
+    cardRentabilite.className = "p-3 sm:p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-950";
+  } else {
+    cardBenefEuro.className = "p-3 sm:p-4 rounded-xl border bg-red-50 border-red-200 text-red-950";
+    cardRentabilite.className = "p-3 sm:p-4 rounded-xl border bg-red-50 border-red-200 text-red-950";
+  }
+
+  const cardCoutBanque = document.getElementById('cardCoutBanque');
+  const lblCoutBanque = document.getElementById('lblCoutBanque');
+  const resCoutBanqueDa = document.getElementById('resCoutBanqueDa');
+
+  if (coutTotalBanqueDa > 1800000) {
+    cardCoutBanque.className = "p-3 sm:p-4 rounded-xl border bg-red-50 border-red-300 text-red-950 font-bold";
+    lblCoutBanque.className = "text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-red-700";
+    resCoutBanqueDa.className = "text-base sm:text-2xl font-black mt-0.5 text-red-950";
+  } else if (coutTotalBanqueDa >= 1700000 && coutTotalBanqueDa <= 1800000) {
+    cardCoutBanque.className = "p-3 sm:p-4 rounded-xl border bg-amber-50 border-amber-300 text-amber-950 font-bold";
+    lblCoutBanque.className = "text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-amber-700";
+    resCoutBanqueDa.className = "text-base sm:text-2xl font-black mt-0.5 text-amber-950";
+  } else {
+    cardCoutBanque.className = "p-3 sm:p-4 rounded-xl border bg-slate-50 border-slate-200 text-slate-800";
+    lblCoutBanque.className = "text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-slate-500";
+    resCoutBanqueDa.className = "text-base sm:text-2xl font-black mt-0.5 text-slate-900";
+  }
+
+  const breakdownTbody = document.getElementById('breakdownTableBody');
+  breakdownTbody.innerHTML = '';
+
+  cart.forEach(item => {
+    const buyEuroItem = item.buyPriceEuro;
+    const buySquareDaItem = buyEuroItem * tauxSquare;
+    const buyBanqueDaItem = buyEuroItem * tauxBanque;
+
+    const douaneDaItem = 0.05 * buyBanqueDaItem;
+    const impotDaItem = 0.005 * buyBanqueDaItem;
+    const bankDaItem = 0.02 * buySquareDaItem;
+    const voyagePartDa = totalFraisVoyageDa / totalIphonesCount;
+
+    const coutRevientUnitaireDa = buySquareDaItem + douaneDaItem + impotDaItem + bankDaItem + voyagePartDa;
+    const coutRevientUnitaireEuro = coutRevientUnitaireDa / tauxSquare;
+
+    const sellPriceEuro = item.sellPriceDa / tauxSquare;
+
+    const benefUnitaireEuro = sellPriceEuro - coutRevientUnitaireEuro;
+    const benefTotalModeleEuro = item.quantity * benefUnitaireEuro;
+
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-slate-50 transition';
+    tr.innerHTML = `
+      <td class="py-2.5 px-2.5 font-semibold text-slate-800">${item.name}</td>
+      <td class="py-2.5 px-1 text-center font-medium">${item.quantity}</td>
+      <td class="py-2.5 px-2 text-right text-slate-700 font-medium">${fmtEUR(buyEuroItem)}</td>
+      <td class="py-2.5 px-2 text-right font-semibold text-slate-900">${fmtEUR(coutRevientUnitaireEuro)}</td>
+      <td class="py-2.5 px-2 text-right font-medium text-slate-900">${fmtEUR(sellPriceEuro)}</td>
+      <td class="py-2.5 px-2 text-right font-semibold ${benefUnitaireEuro >= 0 ? 'text-emerald-700' : 'text-red-700'}">${fmtEUR(benefUnitaireEuro)}</td>
+      <td class="py-2.5 px-2 text-right font-bold ${benefTotalModeleEuro >= 0 ? 'text-emerald-700' : 'text-red-700'}">${fmtEUR(benefTotalModeleEuro)}</td>
+    `;
+    breakdownTbody.appendChild(tr);
+  });
+
+  const outputBlock = document.getElementById('outputBlock');
+  outputBlock.classList.remove('hidden');
+  outputBlock.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
